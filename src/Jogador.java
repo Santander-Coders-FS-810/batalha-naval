@@ -1,55 +1,43 @@
 package src;
 
-import java.util.Scanner;
-
 public class Jogador {
 
-    String nome;
-    static int vitorias;
+    int vitorias;
     int derrotas;
 
-    public Jogador(String nome, int vitorias, int derrotas) {
-        this.nome = nome;
+    enum Modo {
+        RANDOM, MANUAL
+    }
+
+    public Jogador(int vitorias, int derrotas) {
         this.vitorias = vitorias;
         this.derrotas = derrotas;
     }
 
-    public String getNome() {
-        return nome;
-    }
-
-    public static void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public static int getVitorias() {
-        return vitorias;
+    private int getVitorias() {
+        return this.vitorias;
     }
 
     public void setVitorias(int vitorias) {
-        Jogador.vitorias = vitorias;
+        this.vitorias = vitorias;
     }
 
-    public static int getDerrotas() {
-        return derrotas;
+    private int getDerrotas() {
+        return this.derrotas;
     }
 
     public void setDerrotas(int derrotas) {
         this.derrotas = derrotas;
     }
-    
-    static void configNomeJogador() {
-        try (Scanner sc = new Scanner(System.in)) {
-            System.out.println("Qual o seu nome comandante: ");
-            setNome(sc.next());
-        }
-    }
 
-    static void informaPlacar() {
+    public void informaPlacar() {
         System.out.println("Placar");
         System.out.println("Vitórias: " + getVitorias());
         System.out.println("Derrotas: " + getDerrotas());
     }
+
+
         
+
     
 }

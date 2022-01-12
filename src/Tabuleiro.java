@@ -1,82 +1,58 @@
 package src;
 
-import java.util.Scanner;
+import java.util.List;
 
 public class Tabuleiro {
 
-    public int tamanhoTabuleiro;
-    public int quantidadeNavios;
+    int maxLinha = 10;
+    int maxColuna = 10;
+    Posicao[][] tabuleiro;
     public String modo;
-    
-    public int getQuantidadeNavios() {
-        return quantidadeNavios;
+
+    enum colunas {
+        A, B, C, D, E, F, G, H, I, J
     }
 
-    public void setQuantidadeNavios(int quantidadeNavios) {
-        this.quantidadeNavios = quantidadeNavios;
-    }
-
-    public static String getModo() {
-        return modo;
+    public String getModo() {
+        return this.modo;
     }
 
     public void setModo(String modo) {
         this.modo = modo;
     }
 
-    public int getTamanhoTabuleiro() {
-        return tamanhoTabuleiro;
+    public Posicao getPosicaoNavio(int linha, int coluna) {
+        return tabuleiro[linha][coluna];
     }
 
-    public void setTamanhoTabuleiro(int tamanhoTabuleiro) {
-        this.tamanhoTabuleiro = tamanhoTabuleiro;
+    public void setPosicaoNavio(List<Posicao> listaNavio, int index) {
+        tabuleiro[listaNavio.get(index).getLinha()][listaNavio.get(index).getColuna()] = listaNavio.get(index);
     }
 
-    public void configTamanhoTabuleiro(int tamanhoTabuleiro) {
-        Scanner sc = new Scanner(System.in);
-        while (true) {
-            System.out.println("Defina o tamanho do tabuleiro (4-10): ");
-            setTamanhoTabuleiro(sc.nextInt());
-            if (this.tamanhoTabuleiro >= 4 && this.tamanhoTabuleiro <= 10) {
-                break;
-            } else {
-                System.out.println("Tamanho do tabuleiro inválido. Tente novamente.");
+    public Posicao[][] preencheTabuleiro() {
+        tabuleiro = new Posicao[maxLinha][maxColuna];
+        for (int linha = 0; linha < maxLinha; linha++) {
+            for (int coluna = 0; coluna < maxColuna; coluna++) {
+                tabuleiro[linha][coluna] = new Posicao(linha, coluna, Posicao.PosicaoStatus.AGUA_AGUA);
             }
         }
-        sc.close();
+        return tabuleiro;
     }
-
-    public static void informaPlacar() {
-        System.out.println("Placar");
-        System.out.println("Vitórias: " + Jogador.getVitorias());
-        System.out.println("Derrotas: " + Jogador.getDerrotas());
-    }
-
-    public static void configTabuleiro() {
-        Tabuleiro tabuleiro = new Tabuleiro();
-        tabuleiro.configTamanhoTabuleiro(tabuleiro.getTamanhoTabuleiro());
-        System.out.println("Defina o modo de posicionamento dos navios (1-Modo Randômico, 2-Modo Manual): ");
-        Scanner sc = new Scanner(System.in);
-        while (true) {
-            tabuleiro.setModo(sc.next());
-            if (getModo().equals("1") || getModo().equals("2")) {
-                break;
-            } else {
-                System.out.println("Modo de jogo inválido. Tente novamente.");
-            }
-        }
-        sc.close();
-    }
-
-    public static void limpaTabuleiro() {
-    }
-
-    public static void posicionaNaviosRandomicamente() {
-    }
-
-    public static void posicionaNaviosManualmente() {
-    }
-
     
+    public void imprimeTabuleiro(Tabuleiro tabuleiro) {
+        System.out.println("-----------------------------------------------------------------");
+        System.out.println("|   |  A  |  B  |  C  |  D  |  E  |  F  |  G  |  H  |  I  |  J  |");
+        System.out.println("-----------------------------------------------------------------");
+
+        for (int i = 0; i < tabuleiro.maxLinha; i++) {
+            System.out.printf("| %s ", i);
+            for (int j = 0; j < tabuleiro.maxColuna; j++) {
+                System.out.printf("| %s ", tabuleiro.getPosicaoNavio(i, j).getPosicaoStatusString());
+            }
+            System.out.println("|");
+            System.out.println("-----------------------------------------------------------------");
+        }
+
+    }
     
 }
