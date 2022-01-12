@@ -6,7 +6,7 @@ public class Tabuleiro {
 
     int maxLinha = 10;
     int maxColuna = 10;
-    Posicao[][] tabuleiro;
+    static Posicao[][] tabuleiro;
     public String modo;
 
     enum colunas {
@@ -21,7 +21,7 @@ public class Tabuleiro {
         this.modo = modo;
     }
 
-    public Posicao getPosicaoNavio(int linha, int coluna) {
+    public static Posicao getPosicaoNavio(int linha, int coluna) {
         return tabuleiro[linha][coluna];
     }
 
@@ -39,7 +39,7 @@ public class Tabuleiro {
         return tabuleiro;
     }
     
-    public void imprimeTabuleiro(Tabuleiro tabuleiro) {
+    public static void imprimeTabuleiro(Tabuleiro tabuleiro) {
         System.out.println("-----------------------------------------------------------------");
         System.out.println("|   |  A  |  B  |  C  |  D  |  E  |  F  |  G  |  H  |  I  |  J  |");
         System.out.println("-----------------------------------------------------------------");
