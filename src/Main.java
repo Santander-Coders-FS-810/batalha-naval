@@ -39,18 +39,18 @@ public class Main {
             darTiro(pc,humano,sc);
             darTiroPC(humano, pc, sc);
 
-            System.out.println("Humano");
+           /* System.out.println("Humano");*/
             imprimirTabuleiro(humano);
-            System.out.println("PC");
-            imprimirTabuleiro(pc);
+           /* System.out.println("PC");
+            imprimirTabuleiro(pc);*/
 
             //imprimirTabuleiro2(pc);
             System.out.println("Voce tem:"+humano.getAcertos()+" pontos");
             System.out.println("Seu inimigo tem:"+pc.getAcertos()+" pontos");
-            if (pc.acertos > 10){
+            if (pc.acertos >= 10){
                 break;
             }
-            if (humano.acertos > 10){
+            if (humano.acertos >= 10){
                 break;
             }
 
@@ -139,7 +139,7 @@ public class Main {
                 navioInimigo = true;
                 break;
         }
-        System.out.println("switch"+ inimigo.tabuleiro[linha][coluna]+navioInimigo );
+
         switch (jogador.tabuleiro[linha][coluna]){
             case 0:
                 navioJogador = false;
@@ -286,7 +286,7 @@ public class Main {
                 navioInimigo = true;
                 break;
         }
-        System.out.println("switch"+ inimigo.tabuleiro[linha][coluna]+navioInimigo );
+
         switch (jogador.tabuleiro[linha][coluna]){
             case 0:
                 navioJogador = false;
