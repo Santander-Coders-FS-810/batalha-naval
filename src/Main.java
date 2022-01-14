@@ -24,30 +24,35 @@ public class Main {
             humano.sortearPosicaoDoNavio();
         }
 
-
         pc.sortearPosicaoDoNavio();
 
-
         humano.preencherTabuleiro();
-        // imprimirPosicoes(humano);
-        imprimirTabuleiro2(humano);
+        imprimirTabuleiro(humano);
 
 
         pc.preencherTabuleiro();
         imprimirPosicoes(pc);
-        //imprimirTabuleiro2(pc);
 
-        while (pc.getAcertos() != 10 || humano.getAcertos() != 10) {
 
-            darTiro(pc, humano, sc);
+        while (true) {
+
+            darTiro(pc,humano,sc);
             darTiroPC(humano, pc, sc);
 
-            imprimirTabuleiro2(humano);
+            System.out.println("Humano");
+            imprimirTabuleiro(humano);
+            System.out.println("PC");
+            imprimirTabuleiro(pc);
 
-            imprimirTabuleiro2(pc);
-            System.out.println(humano.getAcertos());
-           System.out.println(pc.getAcertos());
-
+            //imprimirTabuleiro2(pc);
+            System.out.println("Voce tem:"+humano.getAcertos()+" pontos");
+            System.out.println("Seu inimigo tem:"+pc.getAcertos()+" pontos");
+            if (pc.acertos > 10){
+                break;
+            }
+            if (humano.acertos > 10){
+                break;
+            }
 
 
         }
@@ -63,7 +68,7 @@ public class Main {
 
     }
 
-    public static void imprimirTabuleiro2(Tabuleiro tabuleiro) {
+    public static void imprimirTabuleiro(Tabuleiro tabuleiro) {
         System.out.println("-----------------------------------------------------------------");
         System.out.println("|   | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |");
         System.out.println("-----------------------------------------------------------------");
@@ -81,7 +86,7 @@ public class Main {
                     System.out.printf("| %s ", "-");
                 } else if (tabuleiro.tabuleiro[i][j] == 4) {
                     System.out.printf("| %s ", "X");
-                } else if (tabuleiro.tabuleiro[i][j] == 6) {
+                } else if (tabuleiro.tabuleiro[i][j] == 5) {
                     System.out.printf("| %s ", "x");
                 }
 
@@ -92,27 +97,6 @@ public class Main {
         System.out.println("-----------------------------------------------------------------");
     }
 
-
-    public static void imprimeTabuleiro(Tabuleiro tabuleiro) {
-        System.out.println("-----------------------------------------------------------------");
-        System.out.println("|   | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |");
-        System.out.println("-----------------------------------------------------------------");
-
-        for (int i = 0; i < 10; i++) {
-            System.out.printf("| %s ", tabuleiro.letraLinha(i));
-
-            for (int j = 0; j < 10; j++) {
-                if (tabuleiro.navios[i][0] == i && tabuleiro.navios[j][1] == j) {
-                    System.out.printf("| %s ", "N");
-                } else {
-                    System.out.printf("| %s ", " ");
-                }
-
-            }
-            System.out.println("|");
-            System.out.println("-----------------------------------------------------------------");
-        }
-    }
 
     public static void encerrarJogo(Scanner sc) {
         if (sc.next().toUpperCase(Locale.ROOT).equals("S")) {
@@ -127,23 +111,112 @@ public class Main {
     public static void darTiro(Tabuleiro inimigo, Tabuleiro jogador, Scanner sc) {
         int linha;
         int coluna;
+        boolean navioJogador = false;
+        boolean navioInimigo = false;
+
         System.out.println("Digite a letra da linha em que deseja atirar 'exemplo A ':");
         linha = inimigo.letraNumero(sc.next());
         System.out.println("Digite o numero da coluna em que deseja atirar 'exemplo 2 ':");
         coluna = sc.nextInt();
-        /*
-        Agua é 0
-        Navio posicionado N (ene maiúsculo) 1
-                . Tiro certeiro * (asterisco) 2
-                . Tiro na água – (traço) 3
-                . Tiro certeiro com navio posicionado X (xis maiúsculo) 4
-                . Tiro na água com navio posicionado n (ene minúsculo) 5 */
 
+        switch (inimigo.tabuleiro[linha][coluna]){
+            case 0:
+                navioInimigo = false;
+                break;
+            case 1:
+                navioInimigo = true;
+                break;
+            case 2:
+                navioInimigo = false;
+                break;
+            case 3:
+                navioInimigo = false;
+                break;
+            case 4:
+                navioInimigo = true;
+                break;
+            case 5:
+                navioInimigo = true;
+                break;
+        }
+        System.out.println("switch"+ inimigo.tabuleiro[linha][coluna]+navioInimigo );
+        switch (jogador.tabuleiro[linha][coluna]){
+            case 0:
+                navioJogador = false;
+                break;
+            case 1:
+                navioJogador = true;
+                break;
+            case 2:
+                navioJogador = false;
+                break;
+            case 3:
+                navioJogador = false;
+                break;
+            case 4:
+                navioJogador = true;
+                break;
+            case 5:
+                navioJogador = true;
+                break;
+        }
+
+
+        if(navioInimigo == false && navioJogador == false){
+            jogador.tabuleiro[linha][coluna] = 3;
+
+        }
+        if(navioInimigo == false && navioJogador == true){
+            jogador.tabuleiro[linha][coluna] = 5;
+
+        }
+        if(navioInimigo == true && navioJogador == true){
+            jogador.tabuleiro[linha][coluna] = 4;
+            jogador.acertos += 1;
+
+        }
+        if(navioInimigo == true && navioJogador == false){
+            jogador.tabuleiro[linha][coluna] = 2;
+            jogador.acertos += 1;
+
+        }
+
+
+
+
+        /*if((inimigo.tabuleiro[linha][coluna]) == (0|2|3)){
+            if(jogador.tabuleiro[linha][coluna] == 1){
+                jogador.tabuleiro[linha][coluna] = 5;
+            }
+            if(jogador.tabuleiro[linha][coluna] == 0){
+                jogador.tabuleiro[linha][coluna] = 3;
+            }
+        }
+
+        if((inimigo.tabuleiro[linha][coluna]) == (1|4|5)){
+            if(jogador.tabuleiro[linha][coluna] == 1){
+                jogador.tabuleiro[linha][coluna] = 4;
+            }
+            if(jogador.tabuleiro[linha][coluna] == 0){
+                jogador.tabuleiro[linha][coluna] = 2;
+            }
+            jogador.acertos += 1;
+        }*/
+
+        /*
+        Agua é 0   n
+        Navio posicionado N (ene maiúsculo) 1  s
+                . Tiro certeiro * (asterisco) 2  n
+                . Tiro na água – (traço) 3  n
+                . Tiro certeiro com navio posicionado X (xis maiúsculo) 4 s
+                . Tiro na água com navio posicionado n (ene minúsculo) 5  s*/
+
+/*
 
         //Tiro certeiro * (asterisco) 2
         if (inimigo.tabuleiro[linha][coluna] != 0 && jogador.tabuleiro[linha][coluna] == 0) {
             jogador.tabuleiro[linha][coluna] = 2;
-            jogador.acertos += 1;
+            //jogador.acertos += 1;
 
         }
         //Tiro na água – (traço) 3
@@ -155,7 +228,7 @@ public class Main {
         //. Tiro certeiro com navio posicionado X (xis maiúsculo) 4
         if (inimigo.tabuleiro[linha][coluna] != 0 && jogador.tabuleiro[linha][coluna] != 0) {
             jogador.tabuleiro[linha][coluna] = 4;
-            jogador.acertos += 1;
+            //jogador.acertos += 1;
 
         }
 
@@ -165,81 +238,98 @@ public class Main {
 
 
         }
-
-
-        System.out.println("tiro dado");
+*/
     }
 
     public static void darTiroPC(Tabuleiro inimigo, Tabuleiro jogador, Scanner sc) {
         int linha;
         int coluna;
+        boolean navioJogador = true;
+        boolean navioInimigo = true;
 
         Random sorteio = new Random();
 
         linha = sorteio.nextInt(10);
         coluna = sorteio.nextInt(10);
 
-        System.out.println(linha);
-        System.out.println(coluna);
 
 
 
         while (true) {
             linha = sorteio.nextInt(10);
             coluna = sorteio.nextInt(10);
-            if(jogador.tabuleiro[linha][coluna] == 0 || jogador.tabuleiro[linha][coluna] == 1){
-                System.out.println(linha);
-                System.out.println(coluna);
+            if (jogador.tabuleiro[linha][coluna] == 0 || jogador.tabuleiro[linha][coluna] == 1) {
+
                 break;
             }
 
 
         }
 
-
-
-
-        /*System.out.println("Digite a letra da linha em que deseja atirar 'exemplo A ':");
-        linha = inimigo.letraNumero(sc.next());
-        System.out.println("Digite o numero da coluna em que deseja atirar 'exemplo 2 ':");
-        coluna = sc.nextInt();*/
-        /*
-        Agua é 0
-        Navio posicionado N (ene maiúsculo) 1
-                . Tiro certeiro * (asterisco) 2
-                . Tiro na água – (traço) 3
-                . Tiro certeiro com navio posicionado X (xis maiúsculo)4
-                . Tiro na água com navio posicionado n (ene minúsculo) 5 */
-
-
-        //Tiro certeiro * (asterisco) 2
-        if (inimigo.tabuleiro[linha][coluna] != 0 && jogador.tabuleiro[linha][coluna] == 0) {
-            jogador.tabuleiro[linha][coluna] = 2;
-            jogador.acertos += 1;
-
+        switch (inimigo.tabuleiro[linha][coluna]){
+            case 0:
+                navioInimigo = false;
+                break;
+            case 1:
+                navioInimigo = true;
+                break;
+            case 2:
+                navioInimigo = false;
+                break;
+            case 3:
+                navioInimigo = false;
+                break;
+            case 4:
+                navioInimigo = true;
+                break;
+            case 5:
+                navioInimigo = true;
+                break;
         }
-        //Tiro na água – (traço) 3
-        if (inimigo.tabuleiro[linha][coluna] == 0 && jogador.tabuleiro[linha][coluna] == 0) {
+        System.out.println("switch"+ inimigo.tabuleiro[linha][coluna]+navioInimigo );
+        switch (jogador.tabuleiro[linha][coluna]){
+            case 0:
+                navioJogador = false;
+                break;
+            case 1:
+                navioJogador = true;
+                break;
+            case 2:
+                navioJogador = false;
+                break;
+            case 3:
+                navioJogador = false;
+                break;
+            case 4:
+                navioJogador = true;
+                break;
+            case 5:
+                navioJogador = true;
+                break;
+        }
+
+
+        if(navioInimigo == false && navioJogador == false){
             jogador.tabuleiro[linha][coluna] = 3;
 
         }
+        if(navioInimigo == false && navioJogador == true){
+            jogador.tabuleiro[linha][coluna] = 5;
 
-        //. Tiro certeiro com navio posicionado X (xis maiúsculo) 4
-        if (inimigo.tabuleiro[linha][coluna] != 0 && jogador.tabuleiro[linha][coluna] != 0) {
+        }
+        if(navioInimigo == true && navioJogador == true){
             jogador.tabuleiro[linha][coluna] = 4;
             jogador.acertos += 1;
 
         }
-
-        //. Tiro na água com navio posicionado n (ene minúsculo) 5
-        if (inimigo.tabuleiro[linha][coluna] == 0 && jogador.tabuleiro[linha][coluna] != 0) {
-            jogador.tabuleiro[linha][coluna] = 5;
-
+        if(navioInimigo == true && navioJogador == false){
+            jogador.tabuleiro[linha][coluna] = 2;
+            jogador.acertos += 1;
 
         }
 
 
-        System.out.println("tiro dado");
+
     }
 
 
